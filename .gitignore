@@ -7,3 +7,5 @@ next-env.d.ts
 out/
 TOKEN
 nixpacks.toml
+TOKEN.txt
+*.token

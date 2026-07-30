@@ -25,28 +25,22 @@ export default function GalleryPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [filter, setFilter] = useState("All");
 
-  const load = async () => {
+  const fetchItems = async () => {
     const [itemsRes, servicesRes] = await Promise.all([
       fetch("/api/gallery"),
       fetch("/api/services"),
     ]);
-    setItems(Array.isArray(await itemsRes.json()) ? await (await fetch("/api/gallery")).json() : []);
-    const svc = await servicesRes.json();
-    setServices(Array.isArray(svc) ? svc : []);
-    setLoading(false);
+    const itemsData = await itemsRes.json();
+    setItems(Array.isArray(itemsData) ? itemsData : []);
+    const svcData = await servicesRes.json();
+    setServices(Array.isArray(svcData) ? svcData : []);
   };
 
   useEffect(() => {
-    const loadItems = async () => {
-      const res = await fetch("/api/gallery");
-      const data = await res.json();
-      setItems(Array.isArray(data) ? data : []);
-      const sRes = await fetch("/api/services");
-      const sData = await sRes.json();
-      setServices(Array.isArray(sData) ? sData : []);
+    (async () => {
+      await fetchItems();
       setLoading(false);
-    };
-    loadItems();
+    })();
   }, []);
 
   const addItem = async () => {
@@ -61,8 +55,7 @@ export default function GalleryPage() {
       toast.success("Image added to gallery");
       setTitle("");
       setImageUrl("");
-      const r = await fetch("/api/gallery");
-      setItems(Array.isArray(await r.json()) ? await (await fetch("/api/gallery")).json() : []);
+      await fetchItems();
     } catch { toast.error("Failed to add"); }
   };
 
@@ -75,8 +68,7 @@ export default function GalleryPage() {
         body: JSON.stringify({ id }),
       });
       toast.success("Image deleted");
-      const r = await fetch("/api/gallery");
-      setItems(Array.isArray(await r.json()) ? await (await fetch("/api/gallery")).json() : []);
+      await fetchItems();
     } catch { toast.error("Failed to delete"); }
   };
 

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState("admin");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -81,7 +81,7 @@ export default function AdminLogin() {
           </button>
         </form>
         <p className="text-xs text-[#766653] text-center mt-4">
-          Default: admin / nepembe2026
+          Contact the site owner if you need access.
         </p>
       </div>
     </div>
