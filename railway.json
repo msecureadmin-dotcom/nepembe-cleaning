@@ -6,6 +6,7 @@
   "deploy": {
     "startCommand": "next start",
     "healthcheckPath": "/",
-    "restartPolicyType": "ON_FAILURE"
+    "restartPolicyType": "ON_FAILURE",
+    "preDeployCommand": "npx prisma migrate deploy"
   }
 }
