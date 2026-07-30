@@ -16,6 +16,7 @@ export async function uploadImage(
     transformation: [
       { quality: "auto", fetch_format: "auto" },
       { width: 1600, crop: "limit" },
+      { overlay: { font_family: "Arial", font_size: 14, text: "Nepembe Cleaning" }, gravity: "south_east", opacity: 30 },
     ],
   });
   return result.secure_url;

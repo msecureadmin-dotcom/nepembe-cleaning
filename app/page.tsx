@@ -107,6 +107,7 @@ function escapeHtml(str: string) {
 export default function HomePage() {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
   const [slides, setSlides] = useState<Slide[]>([]);
+  const [stats, setStats] = useState<{ id: string; label: string; value: string; icon: string }[]>([]);
   const [services, setServices] = useState<Service[]>([]);
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
@@ -140,6 +141,8 @@ export default function HomePage() {
       if (s) setSettings(s);
       const slides = await fetchJson("/api/hero-slides");
       if (slides) setSlides(slides);
+      const statistics = await fetchJson("/api/stats");
+      if (statistics) setStats(statistics);
       const svc = await fetchJson("/api/services");
       if (svc) setServices(svc);
       const gal = await fetchJson("/api/gallery");
@@ -396,31 +399,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Live Stats */}
-      <section className="py-6 bg-gradient-to-r from-[#fff9ef] via-[#f4e4c8] to-[#fff9ef] border-b border-[#eadbc2]">
-        <div className="container-custom grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="text-center reveal visible">
-            <span className="text-2xl">⚡</span>
-            <div className="text-2xl font-black text-[#2f261c]">24h</div>
-            <p className="text-sm font-bold text-[#766653]">fast response goal</p>
+      {stats.length > 0 && (
+        <section className="py-6 bg-gradient-to-r from-[#fff9ef] via-[#f4e4c8] to-[#fff9ef] border-b border-[#eadbc2]">
+          <div className="container-custom grid grid-cols-2 md:grid-cols-4 gap-4">
+            {stats.map((stat, i) => (
+              <div key={stat.id} className={`text-center reveal visible ${i % 2 === 1 ? "delay-1" : ""}`}>
+                {stat.icon && <span className="text-2xl">{stat.icon}</span>}
+                <div className="text-2xl font-black text-[#2f261c]">{stat.value}</div>
+                <p className="text-sm font-bold text-[#766653]">{stat.label}</p>
+              </div>
+            ))}
           </div>
-          <div className="text-center reveal visible delay-1">
-            <span className="text-2xl">🛋️</span>
-            <div className="text-2xl font-black text-[#2f261c]">{services.length}+</div>
-            <p className="text-sm font-bold text-[#766653]">cleaning services</p>
-          </div>
-          <div className="text-center reveal visible">
-            <span className="text-2xl">📍</span>
-            <div className="text-2xl font-black text-[#2f261c]">Walvis Bay</div>
-            <p className="text-sm font-bold text-[#766653]">local mobile team</p>
-          </div>
-          <div className="text-center reveal visible delay-1">
-            <span className="text-2xl">✨</span>
-            <div className="text-2xl font-black text-[#2f261c]">Fresh</div>
-            <p className="text-sm font-bold text-[#766653]">desert-clean finish</p>
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Services */}
       <section className="py-20" id="services">

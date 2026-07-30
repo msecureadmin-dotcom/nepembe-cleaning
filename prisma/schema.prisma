@@ -149,6 +149,17 @@ model ContactSubmission {
   @@map("contact_submissions")
 }
 
+model Stat {
+  id        String  @id @default(cuid())
+  label     String
+  value     String
+  icon      String  @default("")
+  isActive  Boolean @default(true) @map("is_active")
+  sortOrder Int     @default(0) @map("sort_order")
+
+  @@map("stats")
+}
+
 model FAQ {
   id        String  @id @default(cuid())
   question  String

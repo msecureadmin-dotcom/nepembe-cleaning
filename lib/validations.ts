@@ -90,6 +90,14 @@ export const faqSchema = z.object({
   isActive: z.boolean().default(true),
 });
 
+export const statSchema = z.object({
+  label: z.string().min(1).max(100),
+  value: z.string().min(1).max(50),
+  icon: z.string().max(20).default(""),
+  isActive: z.boolean().default(true),
+  sortOrder: z.number().default(0),
+});
+
 export const userSchema = z.object({
   email: z.string().email(),
   name: z.string().max(200).optional(),

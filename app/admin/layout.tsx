@@ -69,6 +69,7 @@ export default function AdminLayout({
     { href: "/admin", label: "Dashboard", icon: "📊" },
     { href: "/admin/settings", label: "Landing Page", icon: "✏️" },
     { href: "/admin/hero-slides", label: "Hero Slides", icon: "🖼️" },
+    { href: "/admin/stats", label: "Stats", icon: "📊" },
     { href: "/admin/services", label: "Services", icon: "🧹" },
     { href: "/admin/gallery", label: "Gallery", icon: "📷" },
     { href: "/admin/testimonials", label: "Reviews", icon: "⭐" },
