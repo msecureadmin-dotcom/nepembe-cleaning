@@ -26,7 +26,7 @@ model SiteSettings {
   logoUrl         String @default("/assets/nepembe-logo.png") @map("logo_url")
   phone           String @default("081 227 3021 / 085 227 3021")
   whatsapp        String @default("+264812273021")
-  email           String @default("nepembejasen@gmail.com")
+  email           String @default("msecure.admin@gmail.com")
   address         String @default("Walvis Bay, Namibia")
   mapLocation     String @default("Walvis Bay, Namibia") @map("map_location")
   googleMapsUrl   String @default("") @map("google_maps_url")

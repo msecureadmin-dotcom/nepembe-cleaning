@@ -20,7 +20,7 @@ export async function sendQuoteEmail(data: {
   preferredTime: string;
   message: string;
 }) {
-  const adminEmail = process.env.ADMIN_EMAIL || "nepembejasen@gmail.com";
+  const adminEmail = process.env.ADMIN_EMAIL || "msecure.admin@gmail.com";
 
   const html = `
     <h2>New Cleaning Quote Request</h2>

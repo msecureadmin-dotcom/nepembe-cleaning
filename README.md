@@ -105,7 +105,7 @@ SMTP_HOST=             # SMTP server host
 SMTP_PORT=             # SMTP port (587)
 SMTP_USER=             # SMTP username
 SMTP_PASS=             # SMTP password
-ADMIN_EMAIL=           # Where quote emails go (nepembejasen@gmail.com)
+ADMIN_EMAIL=           # Where quote emails go (msecure.admin@gmail.com)
 ```
 
 ## Railway Deployment
@@ -130,7 +130,7 @@ gh repo create nepembe-cleaning --public --source=. --push
    - `NEXT_PUBLIC_URL` — your Railway app URL
    - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
    - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`
-   - `ADMIN_EMAIL` — `nepembejasen@gmail.com`
+   - `ADMIN_EMAIL` — `msecure.admin@gmail.com`
 5. Open a **Railway Shell** (or use the dashboard) and run:
 
 ```bash

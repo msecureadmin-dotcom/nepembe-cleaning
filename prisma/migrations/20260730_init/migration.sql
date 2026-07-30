@@ -25,7 +25,7 @@ CREATE TABLE "site_settings" (
     "logo_url" TEXT NOT NULL DEFAULT '/assets/nepembe-logo.png',
     "phone" TEXT NOT NULL DEFAULT '081 227 3021 / 085 227 3021',
     "whatsapp" TEXT NOT NULL DEFAULT '+264812273021',
-    "email" TEXT NOT NULL DEFAULT 'nepembejasen@gmail.com',
+    "email" TEXT NOT NULL DEFAULT 'msecure.admin@gmail.com',
     "address" TEXT NOT NULL DEFAULT 'Walvis Bay, Namibia',
     "map_location" TEXT NOT NULL DEFAULT 'Walvis Bay, Namibia',
     "google_maps_url" TEXT NOT NULL DEFAULT '',

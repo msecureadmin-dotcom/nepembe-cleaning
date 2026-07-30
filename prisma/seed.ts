@@ -28,7 +28,7 @@ async function main() {
       logoUrl: "/assets/nepembe-logo.svg",
       phone: "081 227 3021 / 085 227 3021",
       whatsapp: "+264812273021",
-      email: "nepembejasen@gmail.com",
+      email: "msecure.admin@gmail.com",
       address: "Walvis Bay, Namibia",
       mapLocation: "Walvis Bay, Namibia",
       businessHours: "Mon - Sat: 08:00 - 18:00",
