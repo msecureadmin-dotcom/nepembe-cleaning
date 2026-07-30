@@ -126,6 +126,8 @@ export default function HomePage() {
   const [formStatus, setFormStatus] = useState("");
   const [scrolled, setScrolled] = useState(false);
   const [scrollPct, setScrollPct] = useState(0);
+  const [showSticky, setShowSticky] = useState(true);
+  const lastScrollY = useRef(0);
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -170,6 +172,10 @@ export default function HomePage() {
       const max = doc.scrollHeight - window.innerHeight;
       setScrollPct(max > 0 ? (window.scrollY / max) * 100 : 0);
       setScrolled(window.scrollY > 30);
+      const cur = window.scrollY;
+      if (cur > 200 && cur > lastScrollY.current + 10) setShowSticky(false);
+      else if (cur < lastScrollY.current - 10 || cur < 200) setShowSticky(true);
+      lastScrollY.current = cur;
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -294,6 +300,11 @@ export default function HomePage() {
                 className="block text-center font-bold bg-gradient-to-r from-[#2f261c] to-[#7b4f2a] text-white rounded-full px-5 py-2"
               >
                 Request a Quote
+              </Link>
+            </li>
+            <li className="lg:hidden">
+              <Link href="/admin" className="block font-bold text-[#26435d] hover:text-[#7b4f2a] py-2 text-sm border-t border-[#eadbc2] pt-3 mt-2">
+                Admin ⚙️
               </Link>
             </li>
           </ul>
@@ -753,13 +764,14 @@ export default function HomePage() {
       </section>
 
       {/* Sticky Booking Bar */}
-      <div className="fixed bottom-0 left-1/2 -translate-x-1/2 z-30 w-[min(920px,94vw)] bg-white/95 backdrop-blur-md border border-[#eadbc2] rounded-t-3xl shadow-2xl p-4 hidden lg:flex items-center gap-4">
-        <div className="flex-1">
+      <div className={`fixed bottom-0 left-1/2 -translate-x-1/2 z-30 w-[min(920px,94vw)] bg-white/95 backdrop-blur-md border border-[#eadbc2] rounded-t-3xl shadow-2xl p-4 hidden lg:flex items-center gap-4 transition-transform duration-300 ${showSticky ? "translate-y-0" : "translate-y-full"}`}>
+        <div className="flex-1 min-w-0">
           <strong className="text-[#2f261c]">Need cleaning today?</strong>
           <span className="text-[#766653] text-sm ml-2">Request a quote, book a service, or call/WhatsApp Nepembe.</span>
         </div>
-        <a href="#quote" className="btn-primary text-sm">Request a Quote</a>
-        <a href={whatsappLink()} target="_blank" rel="noreferrer" className="btn-whatsapp text-sm">Call / WhatsApp</a>
+        <a href="#quote" className="btn-primary text-sm whitespace-nowrap">Request a Quote</a>
+        <a href={whatsappLink()} target="_blank" rel="noreferrer" className="btn-whatsapp text-sm whitespace-nowrap">Call / WhatsApp</a>
+        <Link href="/admin" className="text-[#766653] hover:text-[#2f261c] text-xs font-bold shrink-0" title="Admin panel">⚙️</Link>
       </div>
 
       {/* WhatsApp Float */}
