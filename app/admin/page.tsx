@@ -23,7 +23,7 @@ export default function AdminDashboard() {
         Submissions: Array.isArray(submissions) ? submissions.length : 0,
         FAQs: Array.isArray(faq) ? faq.length : 0,
       });
-    });
+    }).catch(() => {});
   }, []);
 
   return (

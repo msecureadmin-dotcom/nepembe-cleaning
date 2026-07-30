@@ -21,21 +21,27 @@ export default function SubmissionsPage() {
   const [loading, setLoading] = useState(true);
 
   const load = async () => {
-    const res = await fetch("/api/submissions");
-    const data = await res.json();
-    setItems(Array.isArray(data) ? data : []);
-    setLoading(false);
+    try {
+      const res = await fetch("/api/submissions");
+      const data = await res.json();
+      setItems(Array.isArray(data) ? data : []);
+    } catch {} finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { load(); }, []);
 
   const markStatus = async (id: string, status: string) => {
-    await fetch("/api/submissions", {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id, status }),
-    });
-    load();
+    try {
+      await fetch("/api/submissions", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status }),
+      });
+    } catch {} finally {
+      load();
+    }
   };
 
   if (loading) return <div className="text-center py-12 text-[#766653]">Loading...</div>;

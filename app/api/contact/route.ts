@@ -6,6 +6,12 @@ import { sendQuoteEmail } from "@/lib/email";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+
+    if (body._hp && body._hp !== "") {
+      return NextResponse.json({ ok: true, id: "spam-filtered" });
+    }
+    delete body._hp;
+
     const parsed = contactSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(

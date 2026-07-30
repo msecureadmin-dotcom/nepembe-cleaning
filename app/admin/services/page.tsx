@@ -20,10 +20,13 @@ export default function ServicesPage() {
   const [imageUrl, setImageUrl] = useState("");
 
   const load = async () => {
-    const res = await fetch("/api/services");
-    const data = await res.json();
-    setServices(Array.isArray(data) ? data : []);
-    setLoading(false);
+    try {
+      const res = await fetch("/api/services");
+      const data = await res.json();
+      setServices(Array.isArray(data) ? data : []);
+    } catch {} finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { load(); }, []);

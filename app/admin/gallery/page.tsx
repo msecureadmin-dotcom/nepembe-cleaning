@@ -26,14 +26,16 @@ export default function GalleryPage() {
   const [filter, setFilter] = useState("All");
 
   const fetchItems = async () => {
-    const [itemsRes, servicesRes] = await Promise.all([
-      fetch("/api/gallery"),
-      fetch("/api/services"),
-    ]);
-    const itemsData = await itemsRes.json();
-    setItems(Array.isArray(itemsData) ? itemsData : []);
-    const svcData = await servicesRes.json();
-    setServices(Array.isArray(svcData) ? svcData : []);
+    try {
+      const [itemsRes, servicesRes] = await Promise.all([
+        fetch("/api/gallery"),
+        fetch("/api/services"),
+      ]);
+      const itemsData = await itemsRes.json();
+      setItems(Array.isArray(itemsData) ? itemsData : []);
+      const svcData = await servicesRes.json();
+      setServices(Array.isArray(svcData) ? svcData : []);
+    } catch {}
   };
 
   useEffect(() => {

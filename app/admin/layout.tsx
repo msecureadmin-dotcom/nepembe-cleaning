@@ -33,10 +33,9 @@ export default function AdminLayout({
         setLoading(false);
       })
       .catch(() => {
+        setLoading(false);
         if (pathname !== "/admin/login") {
           router.push("/admin/login");
-        } else {
-          setLoading(false);
         }
       });
   }, [pathname, router]);

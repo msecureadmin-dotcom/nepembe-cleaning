@@ -18,10 +18,13 @@ export default function FeaturesPage() {
   const [imageUrl, setImageUrl] = useState("");
 
   const load = async () => {
-    const res = await fetch("/api/features");
-    const data = await res.json();
-    setItems(Array.isArray(data) ? data : []);
-    setLoading(false);
+    try {
+      const res = await fetch("/api/features");
+      const data = await res.json();
+      setItems(Array.isArray(data) ? data : []);
+    } catch {} finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { load(); }, []);

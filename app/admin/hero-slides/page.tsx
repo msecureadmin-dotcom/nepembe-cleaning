@@ -18,10 +18,13 @@ export default function HeroSlidesPage() {
   const [imageUrl, setImageUrl] = useState("");
 
   const load = async () => {
-    const res = await fetch("/api/hero-slides");
-    const data = await res.json();
-    setSlides(Array.isArray(data) ? data : []);
-    setLoading(false);
+    try {
+      const res = await fetch("/api/hero-slides");
+      const data = await res.json();
+      setSlides(Array.isArray(data) ? data : []);
+    } catch {} finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { load(); }, []);

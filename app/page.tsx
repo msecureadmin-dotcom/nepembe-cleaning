@@ -121,7 +121,7 @@ export default function HomePage() {
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [formData, setFormData] = useState({
     name: "", phone: "", email: "", service: "", location: "",
-    preferredDate: "", preferredTime: "", message: "",
+    preferredDate: "", preferredTime: "", message: "", _hp: "",
   });
   const [formStatus, setFormStatus] = useState("");
   const [scrolled, setScrolled] = useState(false);
@@ -132,28 +132,26 @@ export default function HomePage() {
 
   useEffect(() => {
     const load = async () => {
-      try {
-        const [sRes, slidesRes, svcRes, galRes, tesRes, featRes, procRes, faqRes] =
-          await Promise.all([
-            fetch("/api/settings"),
-            fetch("/api/hero-slides"),
-            fetch("/api/services"),
-            fetch("/api/gallery"),
-            fetch("/api/testimonials"),
-            fetch("/api/features"),
-            fetch("/api/process-steps"),
-            fetch("/api/faq"),
-          ]);
-        const s = await sRes.json();
-        setSettings(s);
-        setSlides((await slidesRes.json()) || []);
-        setServices((await svcRes.json()) || []);
-        setGallery((await galRes.json()) || []);
-        setTestimonials((await tesRes.json()) || []);
-        setFeatures((await featRes.json()) || []);
-        setProcessSteps((await procRes.json()) || []);
-        setFaqs((await faqRes.json()) || []);
-      } catch {}
+      const fetchJson = async (url: string) => {
+        try { const r = await fetch(url); if (r.ok) return await r.json(); } catch {}
+        return null;
+      };
+      const s = await fetchJson("/api/settings");
+      if (s) setSettings(s);
+      const slides = await fetchJson("/api/hero-slides");
+      if (slides) setSlides(slides);
+      const svc = await fetchJson("/api/services");
+      if (svc) setServices(svc);
+      const gal = await fetchJson("/api/gallery");
+      if (gal) setGallery(gal);
+      const tes = await fetchJson("/api/testimonials");
+      if (tes) setTestimonials(tes);
+      const feat = await fetchJson("/api/features");
+      if (feat) setFeatures(feat);
+      const proc = await fetchJson("/api/process-steps");
+      if (proc) setProcessSteps(proc);
+      const faq = await fetchJson("/api/faq");
+      if (faq) setFaqs(faq);
     };
     load();
   }, []);
@@ -235,7 +233,7 @@ export default function HomePage() {
       });
       if (!res.ok) throw new Error();
       setFormStatus("Quote request sent! We will get back to you shortly.");
-      setFormData({ name: "", phone: "", email: "", service: "", location: "", preferredDate: "", preferredTime: "", message: "" });
+      setFormData({ name: "", phone: "", email: "", service: "", location: "", preferredDate: "", preferredTime: "", message: "", _hp: "" });
     } catch {
       setFormStatus("Something went wrong. Please try WhatsApp instead.");
     }
@@ -633,6 +631,10 @@ export default function HomePage() {
             <p className="text-white/80 mb-6">{settings.quoteText}</p>
           </div>
           <form onSubmit={handleQuoteSubmit} className="bg-white rounded-3xl shadow-xl p-8 reveal delay-1 space-y-4">
+            <div style={{ position: 'absolute', left: '-9999px' }} aria-hidden="true">
+              <label htmlFor="_hp">Leave this empty</label>
+              <input id="_hp" name="_hp" value={formData._hp} onChange={(e) => setFormData((p) => ({ ...p, _hp: e.target.value }))} tabIndex={-1} autoComplete="off" />
+            </div>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-bold text-[#2f261c] mb-1">Name *</label>

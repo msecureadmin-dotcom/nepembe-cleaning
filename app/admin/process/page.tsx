@@ -16,10 +16,13 @@ export default function ProcessPage() {
   const [text, setText] = useState("");
 
   const load = async () => {
-    const res = await fetch("/api/process-steps");
-    const data = await res.json();
-    setItems(Array.isArray(data) ? data : []);
-    setLoading(false);
+    try {
+      const res = await fetch("/api/process-steps");
+      const data = await res.json();
+      setItems(Array.isArray(data) ? data : []);
+    } catch {} finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => { load(); }, []);

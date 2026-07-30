@@ -15,6 +15,16 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml"];
+    if (!allowedTypes.includes(file.type)) {
+      return NextResponse.json({ error: "Invalid file type. Allowed: JPEG, PNG, WebP, GIF, SVG" }, { status: 400 });
+    }
+
+    const maxSize = 10 * 1024 * 1024;
+    if (file.size > maxSize) {
+      return NextResponse.json({ error: "File too large. Maximum size is 10MB" }, { status: 400 });
+    }
+
     const buffer = Buffer.from(await file.arrayBuffer());
     const base64 = `data:${file.type};base64,${buffer.toString("base64")}`;
     const url = await uploadImage(base64);
