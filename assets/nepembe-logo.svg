@@ -1,0 +1,21 @@
+<svg width="920" height="300" viewBox="0 0 920 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g" x1="44" y1="34" x2="255" y2="258" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D6A85F"/>
+      <stop offset="0.52" stop-color="#0F766E"/>
+      <stop offset="1" stop-color="#2F261C"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="0" width="300" height="300" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="18" stdDeviation="18" flood-color="#2F261C" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+  <rect x="22" y="22" width="256" height="256" rx="64" fill="url(#g)" filter="url(#shadow)"/>
+  <path d="M150 55C177 94 207 121 207 163C207 202 181 230 150 230C119 230 93 202 93 163C93 121 123 94 150 55Z" fill="white" fill-opacity="0.96"/>
+  <path d="M110 165C133 183 168 184 194 159" stroke="#0F766E" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="200" cy="86" r="14" fill="white" fill-opacity="0.95"/>
+  <circle cx="221" cy="118" r="9" fill="white" fill-opacity="0.88"/>
+  <path d="M71 224C97 207 126 199 158 199C188 199 211 207 232 221" stroke="#F4E4C8" stroke-width="12" stroke-linecap="round"/>
+  <text x="325" y="131" font-family="Manrope, DejaVu Sans, Arial, sans-serif" font-size="72" font-weight="900" letter-spacing="-3" fill="#2F261C">Nepembe</text>
+  <text x="329" y="194" font-family="Manrope, DejaVu Sans, Arial, sans-serif" font-size="43" font-weight="800" letter-spacing="2" fill="#0F766E">CLEANING SERVICES</text>
+  <text x="331" y="238" font-family="Manrope, DejaVu Sans, Arial, sans-serif" font-size="24" font-weight="700" fill="#7B4F2A">Kings of the cleaning world</text>
+</svg>

@@ -1,0 +1,160 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String?
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  role         String   @default("Admin")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model SiteSettings {
+  id              String @id @default("singleton")
+  companyName     String @default("Nepembe Cleaning Service") @map("company_name")
+  slogan          String @default("We are the kings of the cleaning world")
+  logoUrl         String @default("/assets/nepembe-logo.png") @map("logo_url")
+  phone           String @default("081 227 3021 / 085 227 3021")
+  whatsapp        String @default("+264812273021")
+  email           String @default("nepembejasen@gmail.com")
+  address         String @default("Walvis Bay, Namibia")
+  mapLocation     String @default("Walvis Bay, Namibia") @map("map_location")
+  googleMapsUrl   String @default("") @map("google_maps_url")
+  businessHours   String @default("Mon - Sat: 08:00 - 18:00") @map("business_hours")
+  facebookUrl     String @default("") @map("facebook_url")
+  instagramUrl    String @default("") @map("instagram_url")
+  tiktokUrl       String @default("") @map("tiktok_url")
+  heroEyebrow     String @default("Desert-fresh cleaning in Walvis Bay") @map("hero_eyebrow")
+  heroTitle       String @default("Reliable cleaning services for homes, offices and businesses.") @map("hero_title")
+  heroSubtitle    String @default("We are the kings of the cleaning world — trusted, detail-focused cleaning across Walvis Bay.") @map("hero_subtitle")
+  servicesEyebrow     String @default("What we do") @map("services_eyebrow")
+  servicesTitle       String @default("Cleaning services built around your space") @map("services_title")
+  servicesText        String @default("Choose a once-off deep clean, recurring office cleaning, or specialist cleaning support after moving, building, or events.") @map("services_text")
+  featuresEyebrow     String @default("Cleaning features") @map("features_eyebrow")
+  featuresTitle       String @default("The kings of the cleaning world") @map("features_title")
+  featuresText        String @default("Professional cleaning features that make every service easier to trust, easier to book and easier to update online.") @map("features_text")
+  aboutEyebrow        String @default("About Nepembe") @map("about_eyebrow")
+  aboutTitle          String @default("Local, dependable and detail-driven.") @map("about_title")
+  aboutText           String @default("Nepembe Cleaning Service helps households and businesses in Walvis Bay maintain clean, healthy and welcoming spaces.") @map("about_text")
+  processEyebrow      String @default("Simple booking flow") @map("process_eyebrow")
+  processTitle        String @default("From dusty to desert-fresh in three smooth steps") @map("process_title")
+  processText         String @default("A polished experience from the first message to the final quality check.") @map("process_text")
+  transformEyebrow    String @default("Live cleaning feel") @map("transform_eyebrow")
+  transformTitle      String @default("See the transformation before customers even call.") @map("transform_title")
+  transformText       String @default("The landing page feels alive with image slides, elegant hover movements, animated counters and smooth scroll progress.") @map("transform_text")
+  galleryEyebrow      String @default("Recent work") @map("gallery_eyebrow")
+  galleryTitle        String @default("Gallery") @map("gallery_title")
+  galleryText         String @default("Filter projects by category and click any image to preview the work.") @map("gallery_text")
+  quoteEyebrow        String @default("Request a quote") @map("quote_eyebrow")
+  quoteTitle          String @default("Tell us what needs cleaning.") @map("quote_title")
+  quoteText           String @default("Submit your details and Nepembe Cleaning Service will receive your request by email.") @map("quote_text")
+  testimonialsEyebrow String @default("Client confidence") @map("testimonials_eyebrow")
+  testimonialsTitle   String @default("Why customers choose Nepembe") @map("testimonials_title")
+  contactEyebrow      String @default("Contact") @map("contact_eyebrow")
+  contactTitle        String @default("Ready for a cleaner space?") @map("contact_title")
+  contactText         String @default("Reach out for residential, office, commercial, deep cleaning and more.") @map("contact_text")
+  seoTitle            String @default("Nepembe Cleaning Service | Professional Cleaning in Walvis Bay") @map("seo_title")
+  seoDescription      String @default("Professional cleaning services in Walvis Bay, Namibia. Sofa, upholstery, residential, office, deep cleaning and more.") @map("seo_description")
+
+  @@map("site_settings")
+}
+
+model HeroSlide {
+  id        String  @id @default(cuid())
+  title     String
+  imageUrl  String  @map("image_url")
+  sortOrder Int     @default(0) @map("sort_order")
+  isActive  Boolean @default(true) @map("is_active")
+
+  @@map("hero_slides")
+}
+
+model Service {
+  id          String  @id @default(cuid())
+  title       String
+  slug        String  @unique
+  description String
+  imageUrl    String  @default("") @map("image_url")
+  isActive    Boolean @default(true) @map("is_active")
+  sortOrder   Int     @default(0) @map("sort_order")
+
+  @@map("services")
+}
+
+model GalleryItem {
+  id        String   @id @default(cuid())
+  title     String
+  category  String   @default("General")
+  imageUrl  String   @map("image_url")
+  caption   String   @default("")
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("gallery_items")
+}
+
+model Testimonial {
+  id           String  @id @default(cuid())
+  customerName String  @map("customer_name")
+  review       String
+  rating       Int     @default(5)
+  isActive     Boolean @default(true) @map("is_active")
+  sortOrder    Int     @default(0) @map("sort_order")
+
+  @@map("testimonials")
+}
+
+model FeatureCard {
+  id        String @id @default(cuid())
+  title     String
+  text      String
+  imageUrl  String @default("") @map("image_url")
+  sortOrder Int    @default(0) @map("sort_order")
+
+  @@map("feature_cards")
+}
+
+model ProcessStep {
+  id        String @id @default(cuid())
+  title     String
+  text      String
+  sortOrder Int    @default(0) @map("sort_order")
+
+  @@map("process_steps")
+}
+
+model ContactSubmission {
+  id             String   @id @default(cuid())
+  name           String
+  phone          String
+  email          String   @default("")
+  service        String   @default("")
+  location       String   @default("")
+  preferredDate  String   @default("") @map("preferred_date")
+  preferredTime  String   @default("") @map("preferred_time")
+  message        String   @default("")
+  status         String   @default("New")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@map("contact_submissions")
+}
+
+model FAQ {
+  id        String  @id @default(cuid())
+  question  String
+  answer    String
+  sortOrder Int     @default(0) @map("sort_order")
+  isActive  Boolean @default(true) @map("is_active")
+
+  @@map("faqs")
+}

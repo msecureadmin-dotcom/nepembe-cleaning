@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy: #2f261c;
+  --color-blue: #7b4f2a;
+  --color-teal: #0f766e;
+  --color-mint: #f4e4c8;
+  --color-sand: #d6a85f;
+  --color-dune: #f1d6a5;
+  --color-ink: #261b12;
+  --color-muted: #766653;
+  --color-line: #eadbc2;
+  --color-bg: #fbf4e8;
+  --font-manrope: "Manrope", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: var(--font-manrope);
+    color: var(--color-ink);
+    background: var(--color-bg);
+  }
+}
+
+@layer components {
+  .container-custom {
+    width: min(1140px, 92vw);
+    margin-inline: auto;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.78rem;
+    color: var(--color-blue);
+    font-weight: 900;
+    margin-bottom: 10px;
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .delay-1 { transition-delay: 0.15s; }
+  .delay-2 { transition-delay: 0.3s; }
+}
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
