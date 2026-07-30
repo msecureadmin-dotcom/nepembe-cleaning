@@ -37,7 +37,7 @@ export default function AdminLogin() {
     <div className="min-h-screen flex items-center justify-center bg-[#fbf4e8] p-6">
       <div className="bg-white rounded-3xl shadow-xl p-8 max-w-md w-full border border-[#eadbc2]">
         <img
-          src="/assets/nepembe-logo.png"
+          src="/assets/nepembe-logo.svg"
           alt="Nepembe logo"
           className="h-16 w-auto mx-auto mb-6"
         />

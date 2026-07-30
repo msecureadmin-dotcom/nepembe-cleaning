@@ -99,7 +99,7 @@ export default function SettingsPage() {
           </h2>
           <div className="flex items-center gap-4">
             <img
-              src={form.logoUrl || "/assets/nepembe-logo.png"}
+              src={form.logoUrl || "/assets/nepembe-logo.svg"}
               alt="Current logo"
               className="h-20 w-auto bg-[#fbf4e8] rounded-xl border border-[#eadbc2] p-2"
             />

@@ -272,7 +272,7 @@ export default function HomePage() {
         <nav className="container-custom flex items-center justify-between py-3">
           <Link href="/" className="flex items-center">
             <img
-              src={settings.logoUrl || "/assets/nepembe-logo.png"}
+              src={settings.logoUrl || "/assets/nepembe-logo.svg"}
               alt="Nepembe Cleaning Services logo"
               className={`transition-all duration-300 ${scrolled ? "h-11" : "h-14"} w-auto`}
             />
@@ -436,7 +436,7 @@ export default function HomePage() {
             {services.map((s, i) => (
               <article key={s.id} className="bg-white rounded-3xl border border-[#eadbc2] shadow-lg overflow-hidden reveal">
                 <img
-                  src={s.imageUrl || "/assets/deep-cleaning.png"}
+                  src={s.imageUrl || "/assets/deep-cleaning.svg"}
                   alt={s.title}
                   className="w-full h-44 object-cover"
                 />
@@ -474,7 +474,7 @@ export default function HomePage() {
             <div className="grid md:grid-cols-3 gap-5">
               {features.map((f, i) => (
                 <article key={f.id} className={`bg-gradient-to-b from-white to-[#f6fbff] border border-[#eadbc2] rounded-3xl shadow-lg overflow-hidden reveal ${i === 1 ? "delay-1" : ""}`}>
-                  <img src={f.imageUrl || "/assets/deep-cleaning.png"} alt={f.title} className="w-full h-52 object-cover" />
+                  <img src={f.imageUrl || "/assets/deep-cleaning.svg"} alt={f.title} className="w-full h-52 object-cover" />
                   <h3 className="text-xl font-black text-[#2f261c] mt-5 mx-6">{f.title}</h3>
                   <p className="text-[#766653] mx-6 mb-6">{f.text}</p>
                 </article>
@@ -488,8 +488,8 @@ export default function HomePage() {
       <section className="py-20 bg-[#fff9ef]" id="about">
         <div className="container-custom grid lg:grid-cols-2 gap-12 items-center">
           <div className="grid grid-cols-2 gap-4 reveal">
-            <div className="rounded-3xl overflow-hidden shadow-lg"><img src="/assets/cleaning-office.png" alt="Office cleaning" className="w-full h-48 object-cover" /></div>
-            <div className="rounded-3xl overflow-hidden shadow-lg mt-8"><img src="/assets/sofa-cleaning.png" alt="Sofa cleaning" className="w-full h-48 object-cover" /></div>
+            <div className="rounded-3xl overflow-hidden shadow-lg"><img src="/assets/cleaning-office.svg" alt="Office cleaning" className="w-full h-48 object-cover" /></div>
+            <div className="rounded-3xl overflow-hidden shadow-lg mt-8"><img src="/assets/sofa-cleaning.svg" alt="Sofa cleaning" className="w-full h-48 object-cover" /></div>
           </div>
           <div className="reveal delay-1">
             <p className="eyebrow">{settings.aboutEyebrow}</p>
@@ -542,9 +542,9 @@ export default function HomePage() {
             </div>
           </div>
           <div className="relative min-h-[400px] rounded-3xl overflow-hidden shadow-xl reveal delay-1">
-            <img src="/assets/deep-cleaning.png" alt="Before" className="absolute inset-0 w-full h-full object-cover" />
+            <img src="/assets/deep-cleaning.svg" alt="Before" className="absolute inset-0 w-full h-full object-cover" />
             <div className="absolute inset-0 overflow-hidden" style={{ clipPath: "inset(0 0 0 30%)" }}>
-              <img src="/assets/sofa-cleaning.png" alt="After" className="w-full h-full object-cover" />
+              <img src="/assets/sofa-cleaning.svg" alt="After" className="w-full h-full object-cover" />
             </div>
             <div className="absolute top-0 bottom-0 w-1 bg-white/80 shadow-lg" style={{ left: "30%" }}>
               <span className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 bg-[#fff9ef] text-[#2f261c] font-black text-xs px-3 py-1 rounded-full whitespace-nowrap shadow">

@@ -25,7 +25,7 @@ async function main() {
       id: "singleton",
       companyName: "Nepembe Cleaning Service",
       slogan: "We are the kings of the cleaning world",
-      logoUrl: "/assets/nepembe-logo.png",
+      logoUrl: "/assets/nepembe-logo.svg",
       phone: "081 227 3021 / 085 227 3021",
       whatsapp: "+264812273021",
       email: "nepembejasen@gmail.com",
@@ -68,9 +68,9 @@ async function main() {
   console.log("Site settings seeded");
 
   const heroSlides = [
-    { title: "Professional home cleaning", imageUrl: "/assets/hero-desert-cleaning.png", sortOrder: 0, isActive: true },
-    { title: "Office & commercial cleaning", imageUrl: "/assets/hero-desert-office.png", sortOrder: 1, isActive: true },
-    { title: "Sofa & upholstery care", imageUrl: "/assets/hero-desert-sofa.png", sortOrder: 2, isActive: true },
+    { title: "Professional home cleaning", imageUrl: "/assets/hero-desert-cleaning.svg", sortOrder: 0, isActive: true },
+    { title: "Office & commercial cleaning", imageUrl: "/assets/hero-desert-office.svg", sortOrder: 1, isActive: true },
+    { title: "Sofa & upholstery care", imageUrl: "/assets/hero-desert-sofa.svg", sortOrder: 2, isActive: true },
   ];
   for (const slide of heroSlides) {
     await prisma.heroSlide.create({ data: slide });
@@ -78,17 +78,17 @@ async function main() {
   console.log("Hero slides seeded");
 
   const services = [
-    { title: "Residential Cleaning", slug: "residential-cleaning", description: "Regular and once-off home cleaning to keep every room fresh, neat and comfortable.", imageUrl: "/assets/cleaning-home.png", sortOrder: 0 },
-    { title: "Office Cleaning", slug: "office-cleaning", description: "Professional office cleaning for productive, hygienic workspaces and happy teams.", imageUrl: "/assets/cleaning-office.png", sortOrder: 1 },
-    { title: "Commercial Cleaning", slug: "commercial-cleaning", description: "Reliable cleaning for shops, guesthouses, facilities and small business premises.", imageUrl: "/assets/cleaning-office.png", sortOrder: 2 },
-    { title: "Deep Cleaning", slug: "deep-cleaning", description: "Detailed top-to-bottom cleaning for kitchens, bathrooms, floors and hard-to-reach areas.", imageUrl: "/assets/deep-cleaning.png", sortOrder: 3 },
-    { title: "Sofa Cleaning", slug: "sofa-cleaning", description: "Professional sofa cleaning to remove dust, stains, odours and refresh your lounge furniture.", imageUrl: "/assets/sofa-cleaning.png", sortOrder: 4 },
-    { title: "Upholstery Cleaning", slug: "upholstery-cleaning", description: "Fabric chair, couch, cushion and upholstery cleaning for homes, offices and guest spaces.", imageUrl: "/assets/sofa-cleaning.png", sortOrder: 5 },
-    { title: "Move-In / Move-Out Cleaning", slug: "move-in-move-out-cleaning", description: "Prepare a property before moving in or hand it over spotless after moving out.", imageUrl: "/assets/cleaning-home.png", sortOrder: 6 },
-    { title: "Post-Construction Cleaning", slug: "post-construction-cleaning", description: "Dust, debris and finishing cleanups after renovation or building projects.", imageUrl: "/assets/deep-cleaning.png", sortOrder: 7 },
-    { title: "Carpet Cleaning", slug: "carpet-cleaning", description: "Refresh carpets and fabric surfaces with careful deep cleaning support.", imageUrl: "/assets/sofa-cleaning.png", sortOrder: 8 },
-    { title: "Window Cleaning", slug: "window-cleaning", description: "Cleaner glass, brighter rooms and better presentation for homes and businesses.", imageUrl: "/assets/window-cleaning.png", sortOrder: 9 },
-    { title: "Event Cleaning", slug: "event-cleaning", description: "Before and after event cleaning for private functions, community events and business gatherings.", imageUrl: "/assets/deep-cleaning.png", sortOrder: 10 },
+    { title: "Residential Cleaning", slug: "residential-cleaning", description: "Regular and once-off home cleaning to keep every room fresh, neat and comfortable.", imageUrl: "/assets/cleaning-home.svg", sortOrder: 0 },
+    { title: "Office Cleaning", slug: "office-cleaning", description: "Professional office cleaning for productive, hygienic workspaces and happy teams.", imageUrl: "/assets/cleaning-office.svg", sortOrder: 1 },
+    { title: "Commercial Cleaning", slug: "commercial-cleaning", description: "Reliable cleaning for shops, guesthouses, facilities and small business premises.", imageUrl: "/assets/cleaning-office.svg", sortOrder: 2 },
+    { title: "Deep Cleaning", slug: "deep-cleaning", description: "Detailed top-to-bottom cleaning for kitchens, bathrooms, floors and hard-to-reach areas.", imageUrl: "/assets/deep-cleaning.svg", sortOrder: 3 },
+    { title: "Sofa Cleaning", slug: "sofa-cleaning", description: "Professional sofa cleaning to remove dust, stains, odours and refresh your lounge furniture.", imageUrl: "/assets/sofa-cleaning.svg", sortOrder: 4 },
+    { title: "Upholstery Cleaning", slug: "upholstery-cleaning", description: "Fabric chair, couch, cushion and upholstery cleaning for homes, offices and guest spaces.", imageUrl: "/assets/sofa-cleaning.svg", sortOrder: 5 },
+    { title: "Move-In / Move-Out Cleaning", slug: "move-in-move-out-cleaning", description: "Prepare a property before moving in or hand it over spotless after moving out.", imageUrl: "/assets/cleaning-home.svg", sortOrder: 6 },
+    { title: "Post-Construction Cleaning", slug: "post-construction-cleaning", description: "Dust, debris and finishing cleanups after renovation or building projects.", imageUrl: "/assets/deep-cleaning.svg", sortOrder: 7 },
+    { title: "Carpet Cleaning", slug: "carpet-cleaning", description: "Refresh carpets and fabric surfaces with careful deep cleaning support.", imageUrl: "/assets/sofa-cleaning.svg", sortOrder: 8 },
+    { title: "Window Cleaning", slug: "window-cleaning", description: "Cleaner glass, brighter rooms and better presentation for homes and businesses.", imageUrl: "/assets/window-cleaning.svg", sortOrder: 9 },
+    { title: "Event Cleaning", slug: "event-cleaning", description: "Before and after event cleaning for private functions, community events and business gatherings.", imageUrl: "/assets/deep-cleaning.svg", sortOrder: 10 },
   ];
   for (const service of services) {
     await prisma.service.create({ data: service });
@@ -96,12 +96,12 @@ async function main() {
   console.log("Services seeded");
 
   const galleryItems = [
-    { title: "Office deep clean", category: "Office Cleaning", imageUrl: "/assets/cleaning-office.png", caption: "Office Cleaning", sortOrder: 0 },
-    { title: "Residential home cleaning", category: "Residential Cleaning", imageUrl: "/assets/cleaning-home.png", caption: "Residential Cleaning", sortOrder: 1 },
-    { title: "Sofa cleaning result", category: "Sofa Cleaning", imageUrl: "/assets/sofa-cleaning.png", caption: "Sofa Cleaning", sortOrder: 2 },
-    { title: "Upholstery cleaning", category: "Upholstery Cleaning", imageUrl: "/assets/sofa-cleaning.png", caption: "Upholstery Cleaning", sortOrder: 3 },
-    { title: "Deep cleaning project", category: "Deep Cleaning", imageUrl: "/assets/deep-cleaning.png", caption: "Deep Cleaning", sortOrder: 4 },
-    { title: "Window cleaning", category: "Window Cleaning", imageUrl: "/assets/window-cleaning.png", caption: "Window Cleaning", sortOrder: 5 },
+    { title: "Office deep clean", category: "Office Cleaning", imageUrl: "/assets/cleaning-office.svg", caption: "Office Cleaning", sortOrder: 0 },
+    { title: "Residential home cleaning", category: "Residential Cleaning", imageUrl: "/assets/cleaning-home.svg", caption: "Residential Cleaning", sortOrder: 1 },
+    { title: "Sofa cleaning result", category: "Sofa Cleaning", imageUrl: "/assets/sofa-cleaning.svg", caption: "Sofa Cleaning", sortOrder: 2 },
+    { title: "Upholstery cleaning", category: "Upholstery Cleaning", imageUrl: "/assets/sofa-cleaning.svg", caption: "Upholstery Cleaning", sortOrder: 3 },
+    { title: "Deep cleaning project", category: "Deep Cleaning", imageUrl: "/assets/deep-cleaning.svg", caption: "Deep Cleaning", sortOrder: 4 },
+    { title: "Window cleaning", category: "Window Cleaning", imageUrl: "/assets/window-cleaning.svg", caption: "Window Cleaning", sortOrder: 5 },
   ];
   for (const item of galleryItems) {
     await prisma.galleryItem.create({ data: item });
@@ -119,9 +119,9 @@ async function main() {
   console.log("Testimonials seeded");
 
   const features = [
-    { title: "Sofa & upholstery care", text: "Refresh couches, office chairs, cushions and fabric furniture with dedicated upholstery cleaning.", imageUrl: "/assets/sofa-cleaning.png", sortOrder: 0 },
-    { title: "Deep cleaning details", text: "Bathrooms, kitchens, corners, surfaces and high-touch areas cleaned with attention to detail.", imageUrl: "/assets/deep-cleaning.png", sortOrder: 1 },
-    { title: "Clear finishing touches", text: "Windows, glass and presentation-focused cleaning that leaves spaces looking brighter.", imageUrl: "/assets/window-cleaning.png", sortOrder: 2 },
+    { title: "Sofa & upholstery care", text: "Refresh couches, office chairs, cushions and fabric furniture with dedicated upholstery cleaning.", imageUrl: "/assets/sofa-cleaning.svg", sortOrder: 0 },
+    { title: "Deep cleaning details", text: "Bathrooms, kitchens, corners, surfaces and high-touch areas cleaned with attention to detail.", imageUrl: "/assets/deep-cleaning.svg", sortOrder: 1 },
+    { title: "Clear finishing touches", text: "Windows, glass and presentation-focused cleaning that leaves spaces looking brighter.", imageUrl: "/assets/window-cleaning.svg", sortOrder: 2 },
   ];
   for (const f of features) {
     await prisma.featureCard.create({ data: f });

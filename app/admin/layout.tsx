@@ -88,7 +88,7 @@ export default function AdminLayout({
         <aside className="w-64 bg-[#2f261c] text-white p-6 flex flex-col gap-2 shrink-0 overflow-y-auto">
           <Link href="/" className="mb-4 block">
             <img
-              src="/assets/nepembe-logo.png"
+              src="/assets/nepembe-logo.svg"
               alt="Nepembe logo"
               className="h-14 w-auto brightness-0 invert opacity-90"
             />
