@@ -17,34 +17,38 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [authState, setAuthState] = useState<{
+    pathname: string;
+    user: User | null;
+  } | null>(null);
   const router = useRouter();
   const pathname = usePathname();
+  const isLogin = pathname === "/admin/login";
 
   useEffect(() => {
+    let cancelled = false;
+    setAuthState(null);
     fetch("/api/auth/me")
       .then((r) => {
         if (!r.ok) throw new Error("Not authenticated");
         return r.json();
       })
       .then((data) => {
-        setUser(data.user);
-        setLoading(false);
+        if (!cancelled) setAuthState({ pathname, user: data.user });
       })
       .catch(() => {
-        setLoading(false);
-        if (pathname !== "/admin/login") {
-          router.push("/admin/login");
-        }
+        if (!cancelled) setAuthState({ pathname, user: null });
       });
+    return () => {
+      cancelled = true;
+    };
   }, [pathname, router]);
 
-  if (pathname === "/admin/login") {
+  if (isLogin) {
     return <>{children}</>;
   }
 
-  if (loading) {
+  if (!authState || authState.pathname !== pathname) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-[#fbf4e8]">
         <div className="text-center">
@@ -55,10 +59,12 @@ export default function AdminLayout({
     );
   }
 
-  if (!user) {
+  if (!authState.user) {
     router.push("/admin/login");
     return null;
   }
+
+  const user = authState.user;
 
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
