@@ -96,9 +96,10 @@ export default function SettingsPage() {
 
   const field = (key: string, label: string, multiline?: boolean, hint?: string) => (
     <div className={key.includes("Text") || key.includes("Description") ? "md:col-span-2" : ""}>
-      <label className="block text-sm font-bold text-[#2f261c] mb-1">{label}</label>
+      <label htmlFor={key} className="block text-sm font-bold text-[#2f261c] mb-1">{label}</label>
       {multiline ? (
         <textarea
+          id={key}
           value={form[key] || ""}
           onChange={(e) => handleChange(key, e.target.value)}
           rows={3}
@@ -106,6 +107,7 @@ export default function SettingsPage() {
         />
       ) : (
         <input
+          id={key}
           value={form[key] || ""}
           onChange={(e) => handleChange(key, e.target.value)}
           className="w-full px-4 py-3 rounded-xl border border-[#eadbc2] bg-[#fbf4e8] font-medium"

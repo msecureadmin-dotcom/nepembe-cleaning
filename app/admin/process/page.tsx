@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { toast } from "sonner";
 
 interface Step {
   id: string;
   title: string;
   text: string;
+  sortOrder: number;
 }
 
 export default function ProcessPage() {
@@ -14,6 +15,8 @@ export default function ProcessPage() {
   const [loading, setLoading] = useState(true);
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
+  const [editing, setEditing] = useState<Step | null>(null);
+  const formRef = useRef<HTMLDivElement>(null);
 
   const load = async () => {
     try {
@@ -27,19 +30,23 @@ export default function ProcessPage() {
 
   useEffect(() => { load(); }, []);
 
-  const add = async () => {
+  const save = async () => {
     if (!title || !text) { toast.error("Title and text required"); return; }
     try {
+      const method = editing ? "PUT" : "POST";
+      const body: Record<string, unknown> = { title, text };
+      if (editing) body.id = editing.id;
       await fetch("/api/process-steps", {
-        method: "POST",
+        method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, text }),
+        body: JSON.stringify(body),
       });
-      toast.success("Step added");
+      toast.success(editing ? "Step updated" : "Step added");
       setTitle("");
       setText("");
+      setEditing(null);
       load();
-    } catch { toast.error("Failed to add"); }
+    } catch { toast.error("Failed to save"); }
   };
 
   const remove = async (id: string) => {
@@ -55,17 +62,62 @@ export default function ProcessPage() {
     } catch { toast.error("Failed to delete"); }
   };
 
+  const startEdit = (item: Step) => {
+    setEditing(item);
+    setTitle(item.title);
+    setText(item.text);
+    formRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const cancelEdit = () => {
+    setEditing(null);
+    setTitle("");
+    setText("");
+  };
+
+  const moveItem = async (index: number, direction: "up" | "down") => {
+    const newIndex = direction === "up" ? index - 1 : index + 1;
+    if (newIndex < 0 || newIndex >= items.length) return;
+    const arr = [...items];
+    const temp = arr[index].sortOrder;
+    arr[index].sortOrder = arr[newIndex].sortOrder;
+    arr[newIndex].sortOrder = temp;
+    try {
+      await Promise.all([
+        fetch("/api/process-steps", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: arr[index].id, title: arr[index].title, text: arr[index].text, sortOrder: arr[index].sortOrder }) }),
+        fetch("/api/process-steps", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id: arr[newIndex].id, title: arr[newIndex].title, text: arr[newIndex].text, sortOrder: arr[newIndex].sortOrder }) }),
+      ]);
+      load();
+    } catch { toast.error("Failed to reorder"); }
+  };
+
   if (loading) return <div className="text-center py-12 text-[#766653]">Loading...</div>;
 
   return (
     <div>
       <h1 className="text-2xl font-black text-[#2f261c] mb-2">Process Steps</h1>
 
-      <div className="bg-white rounded-2xl border border-[#eadbc2] p-6 mb-6 max-w-xl">
+      <div ref={formRef} className="bg-white rounded-2xl border border-[#eadbc2] p-6 mb-6 max-w-xl">
+        <h2 className="font-bold text-lg mb-4">{editing ? "Edit Step" : "Add Step"}</h2>
         <div className="space-y-3">
-          <input placeholder="Step title" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-[#eadbc2] bg-[#fbf4e8] font-medium" />
-          <input placeholder="Step text" value={text} onChange={(e) => setText(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-[#eadbc2] bg-[#fbf4e8] font-medium" />
-          <button onClick={add} className="bg-gradient-to-r from-[#d6a85f] to-[#0f766e] text-white font-bold py-3 px-6 rounded-xl">Add Step</button>
+          <div>
+            <label htmlFor="title" className="block text-sm font-bold text-[#2f261c] mb-1">Title</label>
+            <input id="title" placeholder="Step title" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-[#eadbc2] bg-[#fbf4e8] font-medium" />
+          </div>
+          <div>
+            <label htmlFor="text" className="block text-sm font-bold text-[#2f261c] mb-1">Text</label>
+            <input id="text" placeholder="Step text" value={text} onChange={(e) => setText(e.target.value)} className="w-full px-4 py-3 rounded-xl border border-[#eadbc2] bg-[#fbf4e8] font-medium" />
+          </div>
+          <div className="flex gap-2">
+            <button onClick={save} className="bg-gradient-to-r from-[#d6a85f] to-[#0f766e] text-white font-bold py-3 px-6 rounded-xl">
+              {editing ? "Update" : "Add Step"}
+            </button>
+            {editing && (
+              <button onClick={cancelEdit} className="bg-gray-100 text-[#2f261c] font-bold py-3 px-6 rounded-xl hover:bg-gray-200">
+                Cancel
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
@@ -79,6 +131,11 @@ export default function ProcessPage() {
               <strong className="text-[#2f261c]">{item.title}</strong>
               <p className="text-sm text-[#766653]">{item.text}</p>
             </div>
+            <div className="flex flex-col gap-1">
+              <button onClick={() => moveItem(i, "up")} disabled={i === 0} className="text-xs disabled:opacity-30 hover:text-[#d6a85f]">▲</button>
+              <button onClick={() => moveItem(i, "down")} disabled={i === items.length - 1} className="text-xs disabled:opacity-30 hover:text-[#d6a85f]">▼</button>
+            </div>
+            <button onClick={() => startEdit(item)} className="bg-blue-50 text-blue-700 font-bold px-3 py-1 rounded-xl text-sm">Edit</button>
             <button onClick={() => remove(item.id)} className="bg-red-50 text-red-700 font-bold px-3 py-1 rounded-xl text-sm">Delete</button>
           </div>
         ))}

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface Submission {
   id: string;
@@ -19,6 +20,8 @@ interface Submission {
 export default function SubmissionsPage() {
   const [items, setItems] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const perPage = 10;
 
   const load = async () => {
     try {
@@ -34,15 +37,22 @@ export default function SubmissionsPage() {
 
   const markStatus = async (id: string, status: string) => {
     try {
-      await fetch("/api/submissions", {
+      const res = await fetch("/api/submissions", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id, status }),
       });
-    } catch {} finally {
+      if (!res.ok) throw new Error("Failed to update status");
+      toast.success(`Marked as ${status}`);
+    } catch {
+      toast.error("Failed to update status");
+    } finally {
       load();
     }
   };
+
+  const paginated = items.slice(0, page * perPage);
+  const hasMore = paginated.length < items.length;
 
   if (loading) return <div className="text-center py-12 text-[#766653]">Loading...</div>;
 
@@ -52,7 +62,7 @@ export default function SubmissionsPage() {
       <p className="text-[#766653] mb-6">Quote requests from visitors</p>
 
       <div className="space-y-4">
-        {items.map((item) => (
+        {paginated.map((item) => (
           <div key={item.id} className="bg-white rounded-2xl border border-[#eadbc2] p-5">
             <div className="flex items-start justify-between mb-3">
               <div>
@@ -85,6 +95,20 @@ export default function SubmissionsPage() {
           </div>
         ))}
         {items.length === 0 && <p className="text-center py-12 text-[#766653]">No submissions yet</p>}
+
+        {hasMore && (
+          <div className="text-center">
+            <button onClick={() => setPage((p) => p + 1)} className="bg-white border border-[#eadbc2] text-[#2f261c] font-bold px-6 py-3 rounded-xl hover:bg-[#fbf4e8]">
+              Load More ({items.length - paginated.length} remaining)
+            </button>
+          </div>
+        )}
+
+        {items.length > 0 && (
+          <p className="text-center text-sm text-[#766653]">
+            Showing {paginated.length} of {items.length}
+          </p>
+        )}
       </div>
     </div>
   );

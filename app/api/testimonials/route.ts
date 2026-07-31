@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { testimonialSchema } from "@/lib/validations";
@@ -24,6 +24,23 @@ export async function POST(req: Request) {
     if (!parsed.success) return NextResponse.json({ error: "Invalid data" }, { status: 400 });
 
     const item = await prisma.testimonial.create({ data: parsed.data });
+    return NextResponse.json(item);
+  } catch {
+    return NextResponse.json({ error: "Failed" }, { status: 500 });
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  const user = await getSession();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  try {
+    const body = await req.json();
+    const { id, ...rest } = body;
+    const parsed = testimonialSchema.safeParse(rest);
+    if (!parsed.success) return NextResponse.json({ error: "Invalid data" }, { status: 400 });
+
+    const item = await prisma.testimonial.update({ where: { id }, data: parsed.data });
     return NextResponse.json(item);
   } catch {
     return NextResponse.json({ error: "Failed" }, { status: 500 });

@@ -208,6 +208,17 @@ export default function HomePage() {
       : gallery.filter((g) => g.category === galleryFilter);
   const visibleGallery = filteredGallery.slice(0, galleryCount);
 
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLightboxOpen(false);
+      else if (e.key === "ArrowLeft") setLightboxIndex((prev) => (prev - 1 + filteredGallery.length) % filteredGallery.length);
+      else if (e.key === "ArrowRight") setLightboxIndex((prev) => (prev + 1) % filteredGallery.length);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [lightboxOpen, filteredGallery.length]);
+
   const whatsappLink = (msg?: string) => {
     const num = settings?.whatsapp?.replace(/[^0-9]/g, "") || "264812273021";
     const text = msg || "Hello Nepembe Cleaning Service, I would like to request a cleaning quote.";
@@ -830,6 +841,43 @@ export default function HomePage() {
         </div>
       )}
 
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            name: settings.companyName,
+            image: settings.logoUrl,
+            telephone: settings.phone,
+            email: settings.email,
+            address: { "@type": "PostalAddress", streetAddress: settings.address },
+            hasOfferCatalog: {
+              "@type": "OfferCatalog",
+              name: "Cleaning Services",
+              itemListElement: services.map((s) => ({
+                "@type": "Offer",
+                itemOffered: { "@type": "Service", name: s.title, description: s.description, image: s.imageUrl },
+              })),
+            },
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((faq) => ({
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: { "@type": "Answer", text: faq.answer },
+            })),
+          }),
+        }}
+      />
       {/* Inline styles for buttons */}
       <style jsx>{`
         .btn-primary {

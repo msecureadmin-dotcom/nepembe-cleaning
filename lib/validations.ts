@@ -75,6 +75,7 @@ export const gallerySchema = z.object({
   category: z.string().max(200).default("General"),
   imageUrl: z.string().min(1, "Image URL is required"),
   caption: z.string().max(500).default(""),
+  sortOrder: z.number().default(0),
 });
 
 export const testimonialSchema = z.object({
@@ -82,12 +83,14 @@ export const testimonialSchema = z.object({
   review: z.string().min(1).max(1000),
   rating: z.number().min(1).max(5).default(5),
   isActive: z.boolean().default(true),
+  sortOrder: z.number().default(0),
 });
 
 export const faqSchema = z.object({
   question: z.string().min(1).max(500),
   answer: z.string().min(1).max(5000),
   isActive: z.boolean().default(true),
+  sortOrder: z.number().default(0),
 });
 
 export const statSchema = z.object({

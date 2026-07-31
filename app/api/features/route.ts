@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 
@@ -25,6 +25,28 @@ export async function POST(req: Request) {
         text: body.text,
         imageUrl: body.imageUrl || "",
         sortOrder: body.sortOrder ?? 0,
+      },
+    });
+    return NextResponse.json(item);
+  } catch {
+    return NextResponse.json({ error: "Failed" }, { status: 500 });
+  }
+}
+
+export async function PUT(req: NextRequest) {
+  const user = await getSession();
+  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  try {
+    const body = await req.json();
+    const { id, ...data } = body;
+    const item = await prisma.featureCard.update({
+      where: { id },
+      data: {
+        title: data.title,
+        text: data.text,
+        imageUrl: data.imageUrl || "",
+        sortOrder: data.sortOrder ?? 0,
       },
     });
     return NextResponse.json(item);
