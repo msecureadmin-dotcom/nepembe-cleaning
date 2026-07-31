@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import { toast } from "sonner";
+import ConfirmModal from "@/components/confirm-modal";
+import Skeleton from "@/components/skeleton";
 
 interface Stat {
   id: string;
@@ -19,6 +21,7 @@ export default function StatsPage() {
   const [value, setValue] = useState("");
   const [icon, setIcon] = useState("");
   const [editing, setEditing] = useState<Stat | null>(null);
+  const [confirmItem, setConfirmItem] = useState<{ id: string; name: string } | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
   const load = async () => {
@@ -63,7 +66,6 @@ export default function StatsPage() {
   };
 
   const remove = async (id: string) => {
-    if (!confirm("Delete this stat?")) return;
     try {
       await fetch("/api/stats", {
         method: "DELETE",
@@ -104,7 +106,16 @@ export default function StatsPage() {
     } catch { toast.error("Failed to reorder"); }
   };
 
-  if (loading) return <div className="text-center py-12 text-[#766653]">Loading...</div>;
+  if (loading) return (
+    <div className="space-y-4 max-w-xl">
+      <Skeleton className="h-10 w-64" />
+      <Skeleton className="h-40 w-full" />
+      <div className="space-y-2">
+        <Skeleton className="h-20 w-full" />
+        <Skeleton className="h-20 w-full" />
+      </div>
+    </div>
+  );
 
   return (
     <div>
@@ -161,11 +172,19 @@ export default function StatsPage() {
               {item.isActive ? "Active" : "Off"}
             </button>
             <button onClick={() => startEdit(item)} className="bg-blue-50 text-blue-700 font-bold px-3 py-1 rounded-xl text-xs">Edit</button>
-            <button onClick={() => remove(item.id)} className="bg-red-50 text-red-700 font-bold px-3 py-1 rounded-xl text-xs">Delete</button>
+            <button onClick={() => setConfirmItem({ id: item.id, name: item.value })} className="bg-red-50 text-red-700 font-bold px-3 py-1 rounded-xl text-xs">Delete</button>
           </div>
         ))}
         {items.length === 0 && <p className="text-center py-8 text-[#766653]">No stats yet. Add one above.</p>}
       </div>
+
+      <ConfirmModal
+        open={!!confirmItem}
+        title="Confirm Deletion"
+        message={`Are you sure you want to delete "${confirmItem?.name}"? This cannot be undone.`}
+        onConfirm={() => { if (confirmItem) remove(confirmItem.id); setConfirmItem(null); }}
+        onCancel={() => setConfirmItem(null)}
+      />
     </div>
   );
 }

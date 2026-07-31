@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import { toast } from "sonner";
+import ConfirmModal from "@/components/confirm-modal";
+import Skeleton from "@/components/skeleton";
 
 interface GalleryItem {
   id: string;
@@ -26,6 +28,7 @@ export default function GalleryPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [filter, setFilter] = useState("All");
   const [editing, setEditing] = useState<GalleryItem | null>(null);
+  const [confirmItem, setConfirmItem] = useState<{ id: string; name: string } | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
   const fetchItems = async () => {
@@ -70,7 +73,6 @@ export default function GalleryPage() {
   };
 
   const deleteItem = async (id: string) => {
-    if (!confirm("Delete this image?")) return;
     try {
       await fetch("/api/gallery", {
         method: "DELETE",
@@ -116,7 +118,16 @@ export default function GalleryPage() {
   const categories = ["All", ...new Set(services.map((s) => s.title)), "General"];
   const filtered = filter === "All" ? items : items.filter((i) => i.category === filter);
 
-  if (loading) return <div className="text-center py-12 text-[#766653]">Loading...</div>;
+  if (loading) return (
+    <div className="space-y-4 max-w-xl">
+      <Skeleton className="h-10 w-64" />
+      <Skeleton className="h-40 w-full" />
+      <div className="space-y-2">
+        <Skeleton className="h-20 w-full" />
+        <Skeleton className="h-20 w-full" />
+      </div>
+    </div>
+  );
 
   return (
     <div>
@@ -181,7 +192,7 @@ export default function GalleryPage() {
                   <button onClick={() => moveItem(items.indexOf(item), "down")} disabled={items.indexOf(item) === items.length - 1} className="text-xs disabled:opacity-30 hover:text-[#d6a85f]">▼</button>
                 </div>
                 <button onClick={() => startEdit(item)} className="text-blue-600 text-xs font-bold hover:underline">Edit</button>
-                <button onClick={() => deleteItem(item.id)} className="text-red-600 text-xs font-bold hover:underline">Delete</button>
+                <button onClick={() => setConfirmItem({ id: item.id, name: item.title })} className="text-red-600 text-xs font-bold hover:underline">Delete</button>
               </div>
             </div>
           </div>
@@ -190,6 +201,14 @@ export default function GalleryPage() {
           <p className="col-span-full text-center py-8 text-[#766653]">No images in this category</p>
         )}
       </div>
+
+      <ConfirmModal
+        open={!!confirmItem}
+        title="Confirm Deletion"
+        message={`Are you sure you want to delete "${confirmItem?.name}"? This cannot be undone.`}
+        onConfirm={() => { if (confirmItem) deleteItem(confirmItem.id); setConfirmItem(null); }}
+        onCancel={() => setConfirmItem(null)}
+      />
     </div>
   );
 }

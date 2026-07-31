@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import { toast } from "sonner";
+import ConfirmModal from "@/components/confirm-modal";
+import Skeleton from "@/components/skeleton";
 
 interface Step {
   id: string;
@@ -16,6 +18,7 @@ export default function ProcessPage() {
   const [title, setTitle] = useState("");
   const [text, setText] = useState("");
   const [editing, setEditing] = useState<Step | null>(null);
+  const [confirmItem, setConfirmItem] = useState<{ id: string; name: string } | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
   const load = async () => {
@@ -50,7 +53,6 @@ export default function ProcessPage() {
   };
 
   const remove = async (id: string) => {
-    if (!confirm("Delete this step?")) return;
     try {
       await fetch("/api/process-steps", {
         method: "DELETE",
@@ -91,7 +93,16 @@ export default function ProcessPage() {
     } catch { toast.error("Failed to reorder"); }
   };
 
-  if (loading) return <div className="text-center py-12 text-[#766653]">Loading...</div>;
+  if (loading) return (
+    <div className="space-y-4 max-w-xl">
+      <Skeleton className="h-10 w-64" />
+      <Skeleton className="h-40 w-full" />
+      <div className="space-y-2">
+        <Skeleton className="h-20 w-full" />
+        <Skeleton className="h-20 w-full" />
+      </div>
+    </div>
+  );
 
   return (
     <div>
@@ -136,11 +147,19 @@ export default function ProcessPage() {
               <button onClick={() => moveItem(i, "down")} disabled={i === items.length - 1} className="text-xs disabled:opacity-30 hover:text-[#d6a85f]">▼</button>
             </div>
             <button onClick={() => startEdit(item)} className="bg-blue-50 text-blue-700 font-bold px-3 py-1 rounded-xl text-sm">Edit</button>
-            <button onClick={() => remove(item.id)} className="bg-red-50 text-red-700 font-bold px-3 py-1 rounded-xl text-sm">Delete</button>
+            <button onClick={() => setConfirmItem({ id: item.id, name: item.title })} className="bg-red-50 text-red-700 font-bold px-3 py-1 rounded-xl text-sm">Delete</button>
           </div>
         ))}
         {items.length === 0 && <p className="text-center py-8 text-[#766653]">No steps yet</p>}
       </div>
+
+      <ConfirmModal
+        open={!!confirmItem}
+        title="Confirm Deletion"
+        message={`Are you sure you want to delete "${confirmItem?.name}"? This cannot be undone.`}
+        onConfirm={() => { if (confirmItem) remove(confirmItem.id); setConfirmItem(null); }}
+        onCancel={() => setConfirmItem(null)}
+      />
     </div>
   );
 }

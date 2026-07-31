@@ -2,6 +2,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import { toast } from "sonner";
+import ConfirmModal from "@/components/confirm-modal";
+import Skeleton from "@/components/skeleton";
 
 interface Slide {
   id: string;
@@ -18,6 +20,7 @@ export default function HeroSlidesPage() {
   const [imageUrl, setImageUrl] = useState("");
   const [uploading, setUploading] = useState(false);
   const [editing, setEditing] = useState<Slide | null>(null);
+  const [confirmItem, setConfirmItem] = useState<{ id: string; name: string } | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
@@ -70,7 +73,6 @@ export default function HeroSlidesPage() {
   };
 
   const deleteSlide = async (id: string) => {
-    if (!confirm("Delete this slide?")) return;
     try {
       await fetch("/api/hero-slides", {
         method: "DELETE",
@@ -122,7 +124,16 @@ export default function HeroSlidesPage() {
     } catch { toast.error("Failed to reorder"); }
   };
 
-  if (loading) return <div className="text-center py-12 text-[#766653]">Loading...</div>;
+  if (loading) return (
+    <div className="space-y-4 max-w-xl">
+      <Skeleton className="h-10 w-64" />
+      <Skeleton className="h-40 w-full" />
+      <div className="space-y-2">
+        <Skeleton className="h-20 w-full" />
+        <Skeleton className="h-20 w-full" />
+      </div>
+    </div>
+  );
 
   return (
     <div>
@@ -182,11 +193,19 @@ export default function HeroSlidesPage() {
               {slide.isActive ? "Active" : "Off"}
             </button>
             <button onClick={() => startEdit(slide)} className="bg-blue-50 text-blue-700 font-bold px-3 py-1 rounded-xl text-xs">Edit</button>
-            <button onClick={() => deleteSlide(slide.id)} className="bg-red-50 text-red-700 font-bold px-3 py-1 rounded-xl text-xs">Delete</button>
+            <button onClick={() => setConfirmItem({ id: slide.id, name: slide.title })} className="bg-red-50 text-red-700 font-bold px-3 py-1 rounded-xl text-xs">Delete</button>
           </div>
         ))}
         {slides.length === 0 && <p className="text-[#766653] text-center py-8">No slides yet</p>}
       </div>
+
+      <ConfirmModal
+        open={!!confirmItem}
+        title="Confirm Deletion"
+        message={`Are you sure you want to delete "${confirmItem?.name}"? This cannot be undone.`}
+        onConfirm={() => { if (confirmItem) deleteSlide(confirmItem.id); setConfirmItem(null); }}
+        onCancel={() => setConfirmItem(null)}
+      />
     </div>
   );
 }

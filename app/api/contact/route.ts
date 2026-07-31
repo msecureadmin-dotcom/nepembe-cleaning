@@ -2,10 +2,23 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { contactSchema } from "@/lib/validations";
 import { sendQuoteEmail } from "@/lib/email";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(req: Request) {
   try {
     const body = await req.json();
+    if (
+      !rateLimit(
+        "contact:" + (req.headers.get("x-forwarded-for") || "unknown"),
+        5,
+        60_000
+      )
+    ) {
+      return NextResponse.json(
+        { error: "Too many attempts, try again later" },
+        { status: 429 }
+      );
+    }
 
     if (body._hp && body._hp !== "") {
       return NextResponse.json({ ok: true, id: "spam-filtered" });

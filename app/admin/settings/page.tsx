@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { toast } from "sonner";
+import Skeleton from "@/components/skeleton";
 
 export default function SettingsPage() {
   const [form, setForm] = useState<Record<string, string>>({});
@@ -118,7 +119,16 @@ export default function SettingsPage() {
   );
 
   if (loading) {
-    return <div className="text-center py-12 text-[#766653]">Loading...</div>;
+    return (
+      <div className="space-y-4 max-w-xl">
+        <Skeleton className="h-10 w-64" />
+        <Skeleton className="h-40 w-full" />
+        <div className="space-y-2">
+          <Skeleton className="h-20 w-full" />
+          <Skeleton className="h-20 w-full" />
+        </div>
+      </div>
+    );
   }
 
   return (

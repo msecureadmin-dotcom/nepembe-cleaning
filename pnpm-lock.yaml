@@ -17,6 +17,9 @@ importers:
       cloudinary:
         specifier: ^2.6.0
         version: 2.10.0
+      dotenv:
+        specifier: ^16.6.1
+        version: 16.6.1
       jose:
         specifier: ^6.0.0
         version: 6.2.5
@@ -40,9 +43,6 @@ importers:
         version: 3.25.76
     devDependencies:
       '@tailwindcss/oxide':
-        specifier: 4.3.3
-        version: 4.3.3
-      '@tailwindcss/oxide-linux-x64-gnu':
         specifier: 4.3.3
         version: 4.3.3
       '@tailwindcss/postcss':
@@ -556,6 +556,7 @@ packages:
     engines: {node: '>= 20'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
 
   '@tailwindcss/oxide-linux-x64-musl@4.3.3':
     resolution: {integrity: sha512-SJxX60smvHgasZoBy11dX6YRjXJFovwWBoedhbQPOBzgFWBHGB+TVPWB9BxzR7TTxU8FQZAI2AyiNCMzFm8Img==}
@@ -1249,7 +1250,8 @@ snapshots:
   '@tailwindcss/oxide-linux-arm64-musl@4.3.3':
     optional: true
 
-  '@tailwindcss/oxide-linux-x64-gnu@4.3.3': {}
+  '@tailwindcss/oxide-linux-x64-gnu@4.3.3':
+    optional: true
 
   '@tailwindcss/oxide-linux-x64-musl@4.3.3':
     optional: true

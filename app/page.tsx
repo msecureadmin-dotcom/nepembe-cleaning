@@ -286,6 +286,7 @@ export default function HomePage() {
             <img
               src={settings.logoUrl || "/assets/nepembe-logo.svg"}
               alt="Nepembe Cleaning Services logo"
+              loading="lazy"
               className={`transition-all duration-300 ${scrolled ? "h-11" : "h-14"} w-auto`}
             />
           </Link>
@@ -438,6 +439,7 @@ export default function HomePage() {
                 <img
                   src={s.imageUrl || "/assets/deep-cleaning.svg"}
                   alt={s.title}
+                  loading="lazy"
                   className="w-full h-44 object-cover"
                 />
                 <div className="p-6 flex flex-col flex-1">
@@ -474,7 +476,7 @@ export default function HomePage() {
             <div className="grid md:grid-cols-3 gap-5">
               {features.map((f, i) => (
                 <article key={f.id} className={`bg-gradient-to-b from-white to-[#f6fbff] border border-[#eadbc2] rounded-3xl shadow-lg overflow-hidden reveal ${i === 1 ? "delay-1" : ""}`}>
-                  <img src={f.imageUrl || "/assets/deep-cleaning.svg"} alt={f.title} className="w-full h-52 object-cover" />
+                  <img src={f.imageUrl || "/assets/deep-cleaning.svg"} alt={f.title} loading="lazy" className="w-full h-52 object-cover" />
                   <h3 className="text-xl font-black text-[#2f261c] mt-5 mx-6">{f.title}</h3>
                   <p className="text-[#766653] mx-6 mb-6">{f.text}</p>
                 </article>
@@ -488,8 +490,8 @@ export default function HomePage() {
       <section className="py-20 bg-[#fff9ef]" id="about">
         <div className="container-custom grid lg:grid-cols-2 gap-12 items-center">
           <div className="grid grid-cols-2 gap-4 reveal">
-            <div className="rounded-3xl overflow-hidden shadow-lg"><img src="/assets/cleaning-office.svg" alt="Office cleaning" className="w-full h-48 object-cover" /></div>
-            <div className="rounded-3xl overflow-hidden shadow-lg mt-8"><img src="/assets/sofa-cleaning.svg" alt="Sofa cleaning" className="w-full h-48 object-cover" /></div>
+            <div className="rounded-3xl overflow-hidden shadow-lg"><img src="/assets/cleaning-office.svg" alt="Office cleaning" loading="lazy" className="w-full h-48 object-cover" /></div>
+            <div className="rounded-3xl overflow-hidden shadow-lg mt-8"><img src="/assets/sofa-cleaning.svg" alt="Sofa cleaning" loading="lazy" className="w-full h-48 object-cover" /></div>
           </div>
           <div className="reveal delay-1">
             <p className="eyebrow">{settings.aboutEyebrow}</p>
@@ -542,9 +544,9 @@ export default function HomePage() {
             </div>
           </div>
           <div className="relative min-h-[400px] rounded-3xl overflow-hidden shadow-xl reveal delay-1">
-            <img src="/assets/deep-cleaning.svg" alt="Before" className="absolute inset-0 w-full h-full object-cover" />
+            <img src="/assets/deep-cleaning.svg" alt="Before" loading="lazy" className="absolute inset-0 w-full h-full object-cover" />
             <div className="absolute inset-0 overflow-hidden" style={{ clipPath: "inset(0 0 0 30%)" }}>
-              <img src="/assets/sofa-cleaning.svg" alt="After" className="w-full h-full object-cover" />
+              <img src="/assets/sofa-cleaning.svg" alt="After" loading="lazy" className="w-full h-full object-cover" />
             </div>
             <div className="absolute top-0 bottom-0 w-1 bg-white/80 shadow-lg" style={{ left: "30%" }}>
               <span className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 bg-[#fff9ef] text-[#2f261c] font-black text-xs px-3 py-1 rounded-full whitespace-nowrap shadow">
@@ -588,6 +590,7 @@ export default function HomePage() {
                 <img
                   src={item.imageUrl}
                   alt={item.title}
+                  loading="lazy"
                   className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3">
@@ -823,6 +826,7 @@ export default function HomePage() {
             <img
               src={filteredGallery[lightboxIndex].imageUrl}
               alt={filteredGallery[lightboxIndex].title}
+              loading="lazy"
               className="max-w-full max-h-[78vh] rounded-2xl shadow-2xl"
             />
             <figcaption className="text-white font-bold mt-3">

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -47,12 +48,18 @@ export default function AdminLogin() {
         <p className="text-[#766653] text-sm text-center mb-6">
           Sign in to manage your website
         </p>
+        <div className="text-center mb-4">
+          <Link href="/" className="font-bold text-[#7b4f2a] hover:underline">
+            ← Back to Site
+          </Link>
+        </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-bold text-[#2f261c] mb-1">
+            <label htmlFor="email" className="block text-sm font-bold text-[#2f261c] mb-1">
               Email / Username
             </label>
             <input
+              id="email"
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -61,10 +68,11 @@ export default function AdminLogin() {
             />
           </div>
           <div>
-            <label className="block text-sm font-bold text-[#2f261c] mb-1">
+            <label htmlFor="password" className="block text-sm font-bold text-[#2f261c] mb-1">
               Password
             </label>
             <input
+              id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

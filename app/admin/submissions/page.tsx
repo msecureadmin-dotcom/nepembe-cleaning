@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import Skeleton from "@/components/skeleton";
 
 interface Submission {
   id: string;
@@ -54,7 +55,16 @@ export default function SubmissionsPage() {
   const paginated = items.slice(0, page * perPage);
   const hasMore = paginated.length < items.length;
 
-  if (loading) return <div className="text-center py-12 text-[#766653]">Loading...</div>;
+  if (loading) return (
+    <div className="space-y-4 max-w-xl">
+      <Skeleton className="h-10 w-64" />
+      <Skeleton className="h-40 w-full" />
+      <div className="space-y-2">
+        <Skeleton className="h-20 w-full" />
+        <Skeleton className="h-20 w-full" />
+      </div>
+    </div>
+  );
 
   return (
     <div>
